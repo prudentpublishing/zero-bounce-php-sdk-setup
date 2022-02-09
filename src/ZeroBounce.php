@@ -181,7 +181,7 @@ class ZeroBounce
             if ($hasHeaderRow) $fields["has_header_row"] = 'true';
 
             $files = array();
-            $files[$filepath] = file_get_contents($filepath);
+            $files[] = ['path' => $filepath, 'content' => file_get_contents($filepath)];
 
 // curl
             $curl = curl_init();
@@ -453,7 +453,9 @@ class ZeroBounce
         }
 
 
-        foreach ($files as $path => $content) {
+        foreach ($files as $file) {
+            $path = $file['path'];
+            $content = $file['content'];
             $name = basename($path);
             $data .= "--" . $delimiter . $eol
                 . 'Content-Disposition: form-data; name="' . $path . '"; filename="' . $name . '"' . $eol
